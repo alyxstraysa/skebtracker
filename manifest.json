@@ -1,13 +1,36 @@
 {
-    "name": "Getting Started Example",
-    "description": "Build an Extension!",
+    "name": "Skeb Tracker",
+    "description": "Converts Yen amount to USD and tracks canceled requests",
     "version": "1.0",
     "manifest_version": 3,
-    "background": {
-      "service_worker": "background.js"
-    },
-    "permissions": ["storage"],
-    "action": {
-      "default_popup": "popup.html"
+
+    "permissions" : [
+      "activeTab",
+      "contentSettings",
+      "storage",
+      "webNavigation",
+      "notifications",
+      "alarms"
+    ],
+
+    "background" : {
+      "service_worker" : "background.js"
+    } ,
+
+    "content_scripts": [
+      {
+        "matches": ["https://skeb.jp/*"],
+        "js": ["yencalc.js"]
+      },
+      {
+        "matches": ["https://skeb.jp/requests?role=client&status=cancelled&sort=date"],
+        "js": ["checkrequest.js"]
+      }
+    ],
+    
+    "icons" : {
+      "16" : "icons/16.png",
+      "48" : "icons/48.png",
+      "128": "icons/128.png"
     }
   }
